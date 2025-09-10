@@ -1958,6 +1958,10 @@ p { color: #1f2937; }
     margin-bottom: 20px;
   }
   
+  .hero-art {
+    display: none;
+  }
+  
   .hero-logo-badge {
     top: -5px;
     right: -10px;
