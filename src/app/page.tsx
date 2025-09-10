@@ -2,6 +2,7 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Calculator from "./shared/Calculator";
+import { EmailService } from "./shared/EmailService";
 
 export default function Home() {
   const [showUp, setShowUp] = useState(false);
@@ -82,11 +83,14 @@ export default function Home() {
       const details = formData.get("details");
       
       // Создаем сообщение для Telegram
-      const message = `Новая заявка с сайта FreshRoom:
-Имя: ${name}
-Телефон: ${phone}
-${details ? `Комментарий: ${details}` : ''}
-Время: ${new Date().toLocaleString("ru-RU")}`;
+      const message = `🔥 НОВАЯ ЗАЯВКА С САЙТА FRESHROOM 🔥
+
+👤 Имя: ${name}
+📞 Телефон: ${phone}
+${details ? `💬 Комментарий: ${details}` : ''}
+⏰ Время: ${new Date().toLocaleString("ru-RU")}
+
+📧 НЕ ЗАБУДЬТЕ ОТПРАВИТЬ НА ПОЧТУ: chaplinrus@gmail.com`;
       
       // Отправляем в Telegram через бота (если настроен)
       const telegramBotToken = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN;
@@ -97,6 +101,7 @@ ${details ? `Комментарий: ${details}` : ''}
         chatId: telegramChatId ? "SET" : "NOT SET" 
       });
       
+      // Отправляем в Telegram
       if (telegramBotToken && telegramChatId) {
         console.log("Sending to Telegram:", message);
         const response = await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
@@ -117,6 +122,20 @@ ${details ? `Комментарий: ${details}` : ''}
         }
       } else {
         console.log("Telegram not configured, skipping");
+      }
+
+      // Отправляем на почту
+      console.log("Sending to email...");
+      const emailSent = await EmailService.sendLeadNotification(
+        String(name),
+        String(phone),
+        details ? String(details) : undefined
+      );
+      
+      if (emailSent) {
+        console.log("Email sent successfully");
+      } else {
+        console.log("Email sending failed");
       }
       
       setLeadSent("ok");
