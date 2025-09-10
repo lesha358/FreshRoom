@@ -2,7 +2,6 @@
 import Image from "next/image";
 import { useEffect, useState } from "react";
 import Calculator from "./shared/Calculator";
-import { EmailService } from "./shared/EmailService";
 
 export default function Home() {
   const [showUp, setShowUp] = useState(false);
