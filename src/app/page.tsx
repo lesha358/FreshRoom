@@ -92,8 +92,14 @@ ${details ? `Комментарий: ${details}` : ''}
       const telegramBotToken = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN;
       const telegramChatId = process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID;
       
+      console.log("Telegram config:", { 
+        token: telegramBotToken ? "SET" : "NOT SET", 
+        chatId: telegramChatId ? "SET" : "NOT SET" 
+      });
+      
       if (telegramBotToken && telegramChatId) {
-        await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+        console.log("Sending to Telegram:", message);
+        const response = await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ 
@@ -102,6 +108,15 @@ ${details ? `Комментарий: ${details}` : ''}
             parse_mode: "HTML"
           }),
         });
+        
+        const result = await response.json();
+        console.log("Telegram response:", result);
+        
+        if (!response.ok) {
+          throw new Error(`Telegram API error: ${result.description || 'Unknown error'}`);
+        }
+      } else {
+        console.log("Telegram not configured, skipping");
       }
       
       setLeadSent("ok");
