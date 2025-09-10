@@ -19,6 +19,7 @@
     "@next/swc-wasm-nodejs": "^15.5.2",
     "@next/swc-wasm-web": "^15.5.2",
     "@types/node": "^20",
+    "@types/nodemailer": "^7.0.1",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
