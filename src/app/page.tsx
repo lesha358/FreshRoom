@@ -124,19 +124,8 @@ ${details ? `💬 Комментарий: ${details}` : ''}
         console.log("Telegram not configured, skipping");
       }
 
-      // Отправляем на почту
-      console.log("Sending to email...");
-      const emailSent = await EmailService.sendLeadNotification(
-        String(name),
-        String(phone),
-        details ? String(details) : undefined
-      );
-      
-      if (emailSent) {
-        console.log("Email sent successfully");
-      } else {
-        console.log("Email sending failed");
-      }
+      // Отправка на почту отключена - используем только Telegram
+      console.log("Email sending disabled - using Telegram only");
       
       setLeadSent("ok");
       form.reset();
