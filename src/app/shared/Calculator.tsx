@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 
 interface CalculatorState {
   propertyType: "apartment" | "house" | "office";
@@ -82,11 +82,10 @@ export default function Calculator() {
   });
 
   const [totalPrice, setTotalPrice] = useState(0);
-  const [currentStep, setCurrentStep] = useState(1);
   const [showEmailForm, setShowEmailForm] = useState(false);
   const [email, setEmail] = useState("");
 
-  const calculatePrice = () => {
+  const calculatePrice = useCallback(() => {
     const prices = PRICES[state.propertyType];
     let basePrice = prices.basePrice;
     
@@ -109,11 +108,11 @@ export default function Calculator() {
     const finalPrice = (basePrice + additionalCost) * CLEANING_TYPE_MULTIPLIERS[state.cleaningType];
     
     setTotalPrice(Math.round(finalPrice));
-  };
+  }, [state]);
 
   useEffect(() => {
     calculatePrice();
-  }, [state]);
+  }, [state, calculatePrice]);
 
   const handleServiceToggle = (service: string) => {
     setState(prev => ({
@@ -179,7 +178,7 @@ export default function Calculator() {
                     name="propertyType"
                     value={option.value}
                     checked={state.propertyType === option.value}
-                    onChange={(e) => setState(prev => ({ ...prev, propertyType: e.target.value as any }))}
+                    onChange={(e) => setState(prev => ({ ...prev, propertyType: e.target.value as "apartment" | "house" | "office" }))}
                   />
                   <span className="radio-custom"></span>
                   {option.label}
@@ -260,7 +259,7 @@ export default function Calculator() {
                     name="cleaningType"
                     value={option.value}
                     checked={state.cleaningType === option.value}
-                    onChange={(e) => setState(prev => ({ ...prev, cleaningType: e.target.value as any }))}
+                    onChange={(e) => setState(prev => ({ ...prev, cleaningType: e.target.value as "regular" | "deep" | "postRenovation" }))}
                   />
                   <span className="radio-custom"></span>
                   <div className="radio-content">

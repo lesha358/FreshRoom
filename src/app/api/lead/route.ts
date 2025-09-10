@@ -22,7 +22,7 @@ export async function POST(req: Request) {
   // Подготовка текста заявки
   const subject = `Новая заявка с сайта FreshRoom`;
   
-  let text = [
+  const text = [
     `Новая заявка:`,
     `Имя: ${name || "—"}`,
     `Телефон: ${phone || "—"}`,

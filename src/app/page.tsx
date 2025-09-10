@@ -7,7 +7,14 @@ export default function Home() {
   const [showUp, setShowUp] = useState(false);
   const [leadLoading, setLeadLoading] = useState(false);
   const [leadSent, setLeadSent] = useState<null | "ok" | "error">(null);
-  const [calculationData, setCalculationData] = useState<any>(null);
+  const [calculationData, setCalculationData] = useState<{
+    propertyType: string;
+    rooms: number;
+    area: number;
+    cleaningType: string;
+    additionalServices: string[];
+    totalPrice: number;
+  } | null>(null);
 
   // Функция для получения названий дополнительных услуг
   const getServiceLabel = (service: string) => {
@@ -73,7 +80,7 @@ export default function Home() {
       if (!res.ok) throw new Error("request failed");
       setLeadSent("ok");
       form.reset();
-    } catch (err) {
+    } catch {
       setLeadSent("error");
     } finally {
       setLeadLoading(false);
@@ -131,7 +138,7 @@ export default function Home() {
             
             <div className="hero-art">
               <div className="hero-logo-container">
-                <img className="hero-logo" src="/logo-freshroom.png" alt="FreshRoom — профессиональная уборка квартир и домов в Москве" />
+                <Image className="hero-logo" src="/logo-freshroom.png" alt="FreshRoom — профессиональная уборка квартир и домов в Москве" width={200} height={200} />
               </div>
               
               <div className="hero-trust-cards">
