@@ -43,10 +43,10 @@ export async function POST(req: Request) {
     );
   }
 
-  text.push(
-    details ? `Комментарий: ${details}` : undefined,
-    `Время: ${new Date().toLocaleString("ru-RU")}`
-  );
+  if (details) {
+    text.push(`Комментарий: ${details}`);
+  }
+  text.push(`Время: ${new Date().toLocaleString("ru-RU")}`);
 
   const finalText = text.filter(Boolean).join("\n");
 
