@@ -17,35 +17,35 @@ This project uses [`next/font`](https://nextjs.org/docs/app/building-your-applic
 
 ## Деплой на Timeweb Cloud (Apps)
 
-1. Создайте приложение типа Next.js (Node 22)
+1. Создайте приложение типа **Static Site** (не Next.js!)
 2. Подключите репозиторий
 3. Build Command: `npm run build`
-4. Start Command: `npm start`
+4. Output Directory: `out`
 5. Установите переменные окружения при необходимости
+
+**Важно:** Используйте тип "Static Site", а не "Next.js", так как проект настроен на статический экспорт.
 
 ## Маршруты
 
 - `/` — лендинг
-- `POST /api/lead` — приём формы (пишет в логи)
+- Форма заявок отправляется напрямую в Telegram (клиентская сторона)
 
-## Отправка заявок (email + Telegram)
+## Отправка заявок (Telegram)
 
-Для отправки заявок на почту Gmail и в Telegram укажите переменные окружения в `.env.local` в корне проекта:
+Для отправки заявок в Telegram укажите переменные окружения в настройках Timeweb Cloud:
 
 ```
-# Telegram bot (опционально)
-TELEGRAM_BOT_TOKEN=
-TELEGRAM_CHAT_ID=
-
-# Gmail SMTP (рекомендуется App Password)
-GMAIL_USER=
-GMAIL_PASS=
-
-# Получатель письма
-MAIL_TO=chaplinrus@gmail.com
+# Telegram bot (обязательно для работы формы)
+NEXT_PUBLIC_TELEGRAM_BOT_TOKEN=your_bot_token
+NEXT_PUBLIC_TELEGRAM_CHAT_ID=your_chat_id
 ```
 
-Gmail: создайте App Password в Google Account → Security → 2‑Step Verification → App passwords → Mail. После изменения переменных перезапустите `npm run dev`.
+**Создание Telegram бота:**
+1. Напишите @BotFather в Telegram
+2. Создайте нового бота командой `/newbot`
+3. Получите токен бота
+4. Узнайте ID чата (можно через @userinfobot)
+5. Добавьте переменные в настройки Timeweb Cloud
 
 ## SEO
 
