@@ -73,14 +73,41 @@ export default function Home() {
     e.preventDefault();
     setLeadLoading(true);
     setLeadSent(null);
+    
     try {
       const form = e.currentTarget;
       const formData = new FormData(form);
-      const res = await fetch("/api/lead", { method: "POST", body: formData });
-      if (!res.ok) throw new Error("request failed");
+      const name = formData.get("name");
+      const phone = formData.get("phone");
+      const details = formData.get("details");
+      
+      // Создаем сообщение для Telegram
+      const message = `Новая заявка с сайта FreshRoom:
+Имя: ${name}
+Телефон: ${phone}
+${details ? `Комментарий: ${details}` : ''}
+Время: ${new Date().toLocaleString("ru-RU")}`;
+      
+      // Отправляем в Telegram через бота (если настроен)
+      const telegramBotToken = process.env.NEXT_PUBLIC_TELEGRAM_BOT_TOKEN;
+      const telegramChatId = process.env.NEXT_PUBLIC_TELEGRAM_CHAT_ID;
+      
+      if (telegramBotToken && telegramChatId) {
+        await fetch(`https://api.telegram.org/bot${telegramBotToken}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ 
+            chat_id: telegramChatId, 
+            text: message,
+            parse_mode: "HTML"
+          }),
+        });
+      }
+      
       setLeadSent("ok");
       form.reset();
-    } catch {
+    } catch (error) {
+      console.error("Error sending lead:", error);
       setLeadSent("error");
     } finally {
       setLeadLoading(false);
@@ -467,7 +494,7 @@ export default function Home() {
                   </div>
                 )}
                 
-                <form method="post" action="/api/lead" className="lead-form" onSubmit={handleLeadSubmit}>
+                <form className="lead-form" onSubmit={handleLeadSubmit}>
                   <div className="lead-grid">
                     <div className="field">
                       <input id="lead-name" name="name" placeholder=" " required autoComplete="name" />
