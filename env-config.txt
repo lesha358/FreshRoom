@@ -1,0 +1,13 @@
+# Сайт URL для метаданных
+NEXT_PUBLIC_SITE_URL=http://localhost:3000
+
+# Telegram Bot настройки (для отправки уведомлений о заявках)
+TELEGRAM_BOT_TOKEN=7772498559:AAHmoLPOhabzBNUPURP8XQwbHsqZcGF9j0w
+TELEGRAM_CHAT_ID=582465272
+
+# Gmail настройки (для отправки email уведомлений)
+GMAIL_USER=cleanseptik@gmail.com
+GMAIL_PASS=srkfnfacymtdabpc
+
+# Email получателя заявок
+MAIL_TO=chaplinrus@gmail.com
