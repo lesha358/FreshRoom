@@ -9,6 +9,13 @@ export default function YandexMetrica({ counterId, variant = 'full' }: YandexMet
   return (
     <>
       {variant !== 'noscriptOnly' && (
+        <>
+          {/* Явное подключение тега Метрики максимально рано */}
+          <Script
+            id="yandex-metrica-src"
+            src={`https://mc.yandex.ru/metrika/tag.js?id=${counterId}`}
+            strategy="beforeInteractive"
+          />
         <Script
           id="yandex-metrica"
           strategy="beforeInteractive"
@@ -23,7 +30,8 @@ export default function YandexMetrica({ counterId, variant = 'full' }: YandexMet
               ym(${counterId}, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:'dataLayer', accurateTrackBounce:true, trackLinks:true});
             `,
           }}
-        />
+          />
+        </>
       )}
       {variant !== 'scriptOnly' && (
         <noscript>
