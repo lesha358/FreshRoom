@@ -138,6 +138,39 @@ ${details ? `💬 Комментарий: ${details}` : ''}
   return (
     <div>
       <main>
+        {/* Скрытые структурированные данные: FAQPage, Service/Offer, BreadcrumbList */}
+        <div style={{display:'none'}}>
+          <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            "mainEntity": [
+              {"@type": "Question", "name": "В каких районах Москвы работаете?", "acceptedAnswer": {"@type": "Answer", "text": "Работаем во всех районах Москвы и Московской области."}},
+              {"@type": "Question", "name": "Что входит в стоимость уборки?", "acceptedAnswer": {"@type": "Answer", "text": "Все расходники, профессиональная химия, инвентарь и оборудование включены."}},
+              {"@type": "Question", "name": "Можно ли заказать уборку на сегодня?", "acceptedAnswer": {"@type": "Answer", "text": "Да, часто можем приехать в день обращения, особенно до 14:00."}},
+              {"@type": "Question", "name": "Безопасны ли ваши средства?", "acceptedAnswer": {"@type": "Answer", "text": "Используем сертифицированные эко‑средства, безопасные для детей и животных."}},
+              {"@type": "Question", "name": "Какие способы оплаты принимаете?", "acceptedAnswer": {"@type": "Answer", "text": "Наличные, банковские карты, переводы на карту и безналичный расчёт для юрлиц."}},
+              {"@type": "Question", "name": "Сколько времени занимает уборка?", "acceptedAnswer": {"@type": "Answer", "text": "Квартира 1–3 комнаты: 2–4 часа; большие квартиры и дома: 4–8 часов."}}
+            ]
+          }) }} />
+
+          <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "ItemList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"item":{"@type":"Service","name":"Уборка квартир в Москве","areaServed":{"@type":"City","name":"Москва"},"provider":{"@type":"LocalBusiness","name":"FreshRoom"},"offers":{"@type":"Offer","price":"2500","priceCurrency":"RUB","availability":"https://schema.org/InStock"}}},
+              {"@type":"ListItem","position":2,"item":{"@type":"Service","name":"Уборка домов в Москве","areaServed":{"@type":"City","name":"Москва"},"provider":{"@type":"LocalBusiness","name":"FreshRoom"},"offers":{"@type":"Offer","price":"4000","priceCurrency":"RUB","availability":"https://schema.org/InStock"}}},
+              {"@type":"ListItem","position":3,"item":{"@type":"Service","name":"Уборка офисов в Москве","areaServed":{"@type":"City","name":"Москва"},"provider":{"@type":"LocalBusiness","name":"FreshRoom"},"offers":{"@type":"Offer","price":"3000","priceCurrency":"RUB","availability":"https://schema.org/InStock"}}}
+            ]
+          }) }} />
+
+          <script type="application/ld+json" dangerouslySetInnerHTML={{__html: JSON.stringify({
+            "@context": "https://schema.org",
+            "@type": "BreadcrumbList",
+            "itemListElement": [
+              {"@type":"ListItem","position":1,"name":"Главная","item": (process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000")}
+            ]
+          }) }} />
+        </div>
         <section className="hero">
           <div className="container hero-wrap">
             <div className="hero-col">

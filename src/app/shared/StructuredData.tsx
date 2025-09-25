@@ -1,7 +1,7 @@
 import Script from 'next/script'
 
 interface StructuredDataProps {
-  type?: 'Organization' | 'LocalBusiness' | 'Service'
+  type?: 'Organization' | 'LocalBusiness' | 'Service' | 'WebSite' | 'FAQPage'
 }
 
 export default function StructuredData({ type = 'LocalBusiness' }: StructuredDataProps) {
@@ -172,6 +172,50 @@ export default function StructuredData({ type = 'LocalBusiness' }: StructuredDat
     }
   }
 
+  const webSiteData = {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "FreshRoom — Профессиональная уборка в Москве",
+    "url": process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+    "inLanguage": "ru-RU",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": `${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/?q={search_term_string}`,
+      "query-input": "required name=search_term_string"
+    }
+  }
+
+  const faqPageData = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "В каких районах Москвы работаете?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Работаем во всех районах Москвы и Московской области, выезжаем в Подмосковье."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Что входит в стоимость уборки?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Все расходники, профессиональная химия, инвентарь и оборудование включены в стоимость."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Сколько времени занимает уборка?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Стандартная квартира 1–3 комнаты: 2–4 часа; большие квартиры и дома: 4–8 часов."
+        }
+      }
+    ]
+  }
+
   const getData = () => {
     switch (type) {
       case 'Organization':
@@ -180,6 +224,10 @@ export default function StructuredData({ type = 'LocalBusiness' }: StructuredDat
         return localBusinessData
       case 'Service':
         return serviceData
+      case 'WebSite':
+        return webSiteData
+      case 'FAQPage':
+        return faqPageData
       default:
         return localBusinessData
     }

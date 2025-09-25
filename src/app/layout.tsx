@@ -3,6 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "./shared/Header";
 import StructuredData from "./shared/StructuredData";
+import YandexMetrica from "./shared/YandexMetrica";
 
 const inter = Inter({ subsets: ["latin", "cyrillic"], variable: "--font-inter" });
 
@@ -38,6 +39,9 @@ export const metadata: Metadata = {
     telephone: false,
   },
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
+  alternates: {
+    canonical: process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000",
+  },
   openGraph: {
     type: "website",
     locale: "ru_RU",
@@ -81,6 +85,10 @@ export const metadata: Metadata = {
     follow: true,
   },
   manifest: "/site.webmanifest",
+  verification: {
+    yandex: process.env.NEXT_PUBLIC_YANDEX_VERIFICATION,
+    google: process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION,
+  },
 };
 
 export const viewport: Viewport = {
@@ -103,9 +111,15 @@ export default function RootLayout({
         <link rel="icon" href="/favicon-32x32.png" sizes="32x32" type="image/png" />
         <link rel="icon" href="/favicon-96x96.png" sizes="96x96" type="image/png" />
         <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
+        <link rel="preconnect" href="https://mc.yandex.ru" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossOrigin="anonymous" />
+        <link rel="dns-prefetch" href="//mc.yandex.ru" />
+        <link rel="dns-prefetch" href="//www.googletagmanager.com" />
       </head>
       <body className={`${inter.variable}`}>
+        <StructuredData type="WebSite" />
         <StructuredData type="LocalBusiness" />
+        <YandexMetrica counterId="104285064" />
         <Header />
         {children}
       </body>
