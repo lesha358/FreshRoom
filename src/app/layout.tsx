@@ -119,7 +119,7 @@ export default function RootLayout({
       <body className={`${inter.variable}`}>
         <StructuredData type="WebSite" />
         <StructuredData type="LocalBusiness" />
-        <YandexMetrica counterId="104285064" />
+        <YandexMetrica counterId={process.env.NEXT_PUBLIC_YANDEX_METRICA_ID || ''} />
         <Header />
         {children}
       </body>

@@ -6,19 +6,17 @@ interface YandexMetricaProps {
 }
 
 export default function YandexMetrica({ counterId, variant = 'full' }: YandexMetricaProps) {
+  // Не рендерим компонент если нет ID счетчика
+  if (!counterId) {
+    return null
+  }
+
   return (
     <>
       {variant !== 'noscriptOnly' && (
-        <>
-          {/* Явное подключение тега Метрики максимально рано */}
-          <Script
-            id="yandex-metrica-src"
-            src={`https://mc.yandex.ru/metrika/tag.js?id=${counterId}`}
-            strategy="beforeInteractive"
-          />
         <Script
           id="yandex-metrica"
-          strategy="beforeInteractive"
+          strategy="afterInteractive"
           dangerouslySetInnerHTML={{
             __html: `
               (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
@@ -27,16 +25,27 @@ export default function YandexMetrica({ counterId, variant = 'full' }: YandexMet
               k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a))
               (window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js', 'ym');
 
-              ym(${counterId}, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:'dataLayer', accurateTrackBounce:true, trackLinks:true});
+              ym(${counterId}, 'init', {
+                ssr: true,
+                webvisor: true,
+                clickmap: true,
+                ecommerce: 'dataLayer',
+                accurateTrackBounce: true,
+                trackLinks: true,
+                defer: true
+              });
             `,
           }}
-          />
-        </>
+        />
       )}
       {variant !== 'scriptOnly' && (
         <noscript>
           <div>
-            <img src={`https://mc.yandex.ru/watch/${counterId}`} style={{position:'absolute', left:'-9999px'}} alt="" />
+            <img 
+              src={`https://mc.yandex.ru/watch/${counterId}`} 
+              style={{position:'absolute', left:'-9999px'}} 
+              alt="" 
+            />
           </div>
         </noscript>
       )}
